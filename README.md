@@ -1,15 +1,3 @@
-This is a Machine Learning lab experiment
+🧠 Machine Learning lab experiment
 
-The experiment is based on the Find-S Algorithm
-
-Find-S is used to find the maximum specific hypothesis
-
-It learns only from positive training examples
-
-Negative examples are ignored
-
-The hypothesis is gradually generalized
-
-This project is simple and beginner-friendly
-
-Useful for understanding basic concept learning in ML
+The aim of this project is to find the maximum specific hypothesis from the given training data. The algorithm learns only from positive examples and ignores negative examples. It updates the hypothesis step by step and represents the hypothesis space (Π) using specific and general hypotheses. This project is designed to be simple and easy to understand for beginners and is useful for Machine Learning labs and GitHub upload.
