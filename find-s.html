@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Find-S Algorithm | Machine Learning Lab</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9fafb;
+            padding: 20px;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        h1 {
+            font-size: 20px;
+            color: #2c3e50;
+        }
+        h2 {
+            font-size: 16px;
+            color: #34495e;
+        }
+        p {
+            display: none;
+        }
+        input[type="file"] {
+            margin: 10px 0;
+            font-size: 13px;
+        }
+        button {
+            padding: 6px 14px;
+            background: #5dade2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        button:hover {
+            background: #3498db;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+        th, td {
+            border: 1px solid #e1e1e1;
+            padding: 6px;
+            text-align: center;
+        }
+        th {
+            background: #f2f4f6;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: #eef9f1;
+            border-left: 4px solid #2ecc71;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Find-S Algorithm</h1>
+        
+
+        <h2>Upload CSV File</h2>
+        
+
+        <input type="file" id="csvFile" accept=".csv" />
+        <br />
+        <button onclick="processCSV()">Run Find-S Algorithm</button>
+
+        <div id="tableContainer"></div>
+        <div id="output" class="result"></div>
+    </div>
+
+    <script>
+        function processCSV() {
+            const fileInput = document.getElementById('csvFile');
+            const file = fileInput.files[0];
+
+            if (!file) {
+                alert('Please upload a CSV file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const text = e.target.result;
+                const rows = text.trim().split('\n').map(r => r.split(','));
+                displayTable(rows);
+                runFindS(rows);
+            };
+            reader.readAsText(file);
+        }
+
+        function displayTable(data) {
+            let html = '<table><tr>';
+            data[0].forEach(h => html += `<th>${h}</th>`);
+            html += '</tr>';
+
+            for (let i = 1; i < data.length; i++) {
+                html += '<tr>';
+                data[i].forEach(cell => html += `<td>${cell}</td>`);
+                html += '</tr>';
+            }
+            html += '</table>';
+            document.getElementById('tableContainer').innerHTML = html;
+        }
+
+        function runFindS(data) {
+            let hypothesis = Array(data[0].length - 1).fill('Ø');
+
+            for (let i = 1; i < data.length; i++) {
+                const example = data[i];
+                const label = example[example.length - 1].trim().toLowerCase();
+
+                if (label === 'yes') {
+                    for (let j = 0; j < hypothesis.length; j++) {
+                        if (hypothesis[j] === 'Ø') {
+                            hypothesis[j] = example[j];
+                        } else if (hypothesis[j] !== example[j]) {
+                            hypothesis[j] = '?';
+                        }
+                    }
+                }
+            }
+
+            document.getElementById('output').innerHTML =
+                'Maximum Specific Hypothesis (S): &lt;' + hypothesis.join(', ') + '&gt;';
+        }
+    </script>
+</body>
+</html>
